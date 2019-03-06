@@ -1,13 +1,25 @@
 package com.gildedrose;
 
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
+
 class GildedRose {
     Item[] items;
 
-    public GildedRose(Item[] items) {
+    public GildedRose(Item... items) {
+        String spoiled = Stream.of(items)
+                .filter(i -> i.quality < 0)
+                .map(i -> i.name + " is spoiled")
+                .collect(joining(", "));
+        if (!spoiled.isEmpty()) {
+            throw new IllegalArgumentException(spoiled);
+        }
+
         this.items = items;
     }
 
-    public void updateQuality() {
+    public Item[] updateQuality() {
         for (int i = 0; i < items.length; i++) {
             if (!items[i].name.equals("Aged Brie")
                     && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
@@ -58,5 +70,7 @@ class GildedRose {
                 }
             }
         }
+
+        return items;
     }
 }
