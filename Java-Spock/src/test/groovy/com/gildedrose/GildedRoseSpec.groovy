@@ -4,6 +4,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static com.gildedrose.GildedRose.AGED_BRIE
+import static com.gildedrose.GildedRose.BACKSTAGE_PASSES
 import static com.gildedrose.GildedRose.LEGENDARY
 
 class GildedRoseSpec extends Specification {
@@ -95,5 +96,27 @@ class GildedRoseSpec extends Specification {
             quality == 50
             sellIn == -1
         }
+    }
+
+    @Unroll
+    def 'passes for #name valued at #value gain #gain quality'() {
+        given:
+        def inventory = new GildedRose(new Item(BACKSTAGE_PASSES, sellIn, value))
+
+        when:
+        inventory.updateQuality()
+
+        then:
+        with(inventory.items.first()) {
+            quality == value + gain
+        }
+
+        where:
+        name                    | sellIn    | value     || gain
+        'upcoming concert'      | 11        | 20        || 1
+        'concert in 10 days'    | 10        | 20        || 2
+        'concert in 5 days'     | 5         | 20        || 3
+        'tomorrow'              | 1         | 20        || 3
+        'today'                 | 0         | 20        || -20
     }
 }
