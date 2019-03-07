@@ -37,6 +37,29 @@ class GildedRoseSpec extends Specification {
         }
     }
 
+    def 'quality decreases over time'() {
+        given:
+        def inventory = new GildedRose(new Item('item', 1, 10))
+
+        when:
+        inventory.updateQuality()
+
+        then:
+        with(inventory.items.first()) {
+            quality == 9
+            sellIn == 0
+        }
+
+        when:
+        inventory.updateQuality()
+
+        then:
+        with(inventory.items.first()) {
+            quality == 7
+            sellIn == -1
+        }
+    }
+
     def 'legendary goods preserve quality & sell date'() {
         given:
         def inventory = new GildedRose(new Item(LEGENDARY, 1, 1))
