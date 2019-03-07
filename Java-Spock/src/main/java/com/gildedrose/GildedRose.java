@@ -48,30 +48,33 @@ class GildedRose {
                     }
                 }
             }
-        } else {
-            if (item.quality > 0 && !item.name.equals(LEGENDARY)) {
-                item.quality = item.quality - 1;
-            }
+        } else if (item.quality > 0 && !item.name.equals(LEGENDARY)) {
+            item.quality = item.quality - 1;
         }
 
         if (!item.name.equals(LEGENDARY)) {
             item.sellIn = item.sellIn - 1;
         }
 
-        if (item.sellIn < 0) {
-            if (!item.name.equals(AGED_BRIE)) {
-                if (!item.name.equals(BACKSTAGE_PASSES)) {
-                    if (item.quality > 0 && !item.name.equals(LEGENDARY)) {
-                        item.quality = item.quality - 1;
-                    }
-                } else {
-                    item.quality = 0;
-                }
-            } else {
-                if (item.quality < 50) {
-                    item.quality = item.quality + 1;
-                }
+        if (item.sellIn >= 0) {
+            return;
+        }
+
+        if (item.name.equals(AGED_BRIE)) {
+            if (item.quality < 50) {
+                item.quality = item.quality + 1;
             }
+
+            return;
+        }
+
+        if (item.name.equals(BACKSTAGE_PASSES)) {
+            item.quality = 0;
+            return;
+        }
+
+        if (item.quality > 0 && !item.name.equals(LEGENDARY)) {
+            item.quality = item.quality - 1;
         }
     }
 
