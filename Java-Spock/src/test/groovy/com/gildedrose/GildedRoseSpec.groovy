@@ -3,6 +3,9 @@ package com.gildedrose
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.gildedrose.InventoryItem.MAX_QUALITY
+import static com.gildedrose.LegendaryInventory.LEGENDARY_QUALITY
+
 class GildedRoseSpec extends Specification {
 
     @Unroll
@@ -59,28 +62,28 @@ class GildedRoseSpec extends Specification {
 
     def 'legendary goods preserve quality & sell date'() {
         given:
-        def inventory = new GildedRose(new Item(LegendaryInventory.NAME, 1, 80))
+        def inventory = new GildedRose(new Item(LegendaryInventory.NAME, 1, LEGENDARY_QUALITY))
 
         when:
         2.times { inventory.updateQuality() }
 
         then:
         with(inventory.items.first()) {
-            quality == 80
+            quality == LEGENDARY_QUALITY
             sellIn == 1
         }
     }
 
     def 'brie gets better with aging'() {
         given:
-        def inventory = new GildedRose(new Item(AgedBrie.NAME, 1, 49))
+        def inventory = new GildedRose(new Item(AgedBrie.NAME, 1, MAX_QUALITY - 1))
 
         when:
         inventory.updateQuality()
 
         then:
         with(inventory.items.first()) {
-            quality == 50
+            quality == MAX_QUALITY
             sellIn == 0
         }
 
@@ -89,7 +92,7 @@ class GildedRoseSpec extends Specification {
 
         then:
         with(inventory.items.first()) {
-            quality == 50
+            quality == MAX_QUALITY
             sellIn == -1
         }
     }
@@ -108,14 +111,14 @@ class GildedRoseSpec extends Specification {
         }
 
         where:
-        name                            | sellIn    | value     || gain
-        'upcoming regular concert'      | 11        | 20        || 1
-        'upcoming major concert'        | 11        | 49        || 1
-        'regular concert in 10 days'    | 10        | 20        || 2
-        'major concert in 10 days'      | 10        | 49        || 1
-        'regular concert in 5 days'     | 5         | 20        || 3
-        'major concert in 5 days'       | 5         | 49        || 1
-        'tomorrow'                      | 1         | 20        || 3
-        'today'                         | 0         | 20        || -20
+        name                            | sellIn    | value             || gain
+        'upcoming regular concert'      | 11        | 20                || 1
+        'upcoming major concert'        | 11        | MAX_QUALITY - 1   || 1
+        'regular concert in 10 days'    | 10        | 20                || 2
+        'major concert in 10 days'      | 10        | MAX_QUALITY - 1   || 1
+        'regular concert in 5 days'     | 5         | 20                || 3
+        'major concert in 5 days'       | 5         | MAX_QUALITY - 1   || 1
+        'tomorrow'                      | 1         | 20                || 3
+        'today'                         | 0         | 20                || -20
     }
 }

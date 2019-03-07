@@ -28,7 +28,7 @@ class TicketInventory extends InventoryItem {
     }
 
     private InventoryItem increaseWorth(int by) {
-        item.quality = min(item.quality + by, 50);
+        item.quality = min(item.quality + by, MAX_QUALITY);
         return this;
     }
 }

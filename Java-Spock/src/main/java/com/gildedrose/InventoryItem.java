@@ -3,6 +3,8 @@ package com.gildedrose;
 import static java.lang.Math.max;
 
 class InventoryItem {
+    static final int MAX_QUALITY = 50;
+
     protected Item item;
 
     InventoryItem(Item item) {

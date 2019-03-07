@@ -12,7 +12,7 @@ class AgedBrie extends InventoryItem {
     @Override
     InventoryItem rollDay() {
         item.sellIn = item.sellIn - 1;
-        item.quality = min(item.quality + 1, 50);
+        item.quality = min(item.quality + 1, MAX_QUALITY);
 
         return this;
     }
