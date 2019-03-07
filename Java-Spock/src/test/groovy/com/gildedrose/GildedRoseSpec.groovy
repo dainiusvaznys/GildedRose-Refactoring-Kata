@@ -11,7 +11,7 @@ class GildedRoseSpec extends Specification {
     @Unroll
     def "don't accept #name goods"() {
         when:
-        new GildedRose(new Item(name, sellIn, quality))
+        acceptInventory(name, sellIn, quality)
 
         then:
         def error = thrown(IllegalArgumentException)
@@ -25,7 +25,7 @@ class GildedRoseSpec extends Specification {
 
     def 'quality is non-negative past expiration'() {
         given:
-        def inventory = new GildedRose(new Item('item', 0, 0))
+        def inventory = acceptInventory('item', 0, 0)
 
         when:
         2.times { inventory.updateQuality() }
@@ -39,7 +39,7 @@ class GildedRoseSpec extends Specification {
 
     def 'quality decreases over time'() {
         given:
-        def inventory = new GildedRose(new Item('item', 1, 10))
+        def inventory = acceptInventory('item', 1, 10)
 
         when:
         inventory.updateQuality()
@@ -62,7 +62,7 @@ class GildedRoseSpec extends Specification {
 
     def 'legendary goods preserve quality & sell date'() {
         given:
-        def inventory = new GildedRose(new Item(LegendaryInventory.NAME, 1, LEGENDARY_QUALITY))
+        def inventory = acceptInventory(LegendaryInventory.NAME, 1, LEGENDARY_QUALITY)
 
         when:
         2.times { inventory.updateQuality() }
@@ -76,7 +76,7 @@ class GildedRoseSpec extends Specification {
 
     def 'brie gets better with aging'() {
         given:
-        def inventory = new GildedRose(new Item(AgedBrie.NAME, 1, MAX_QUALITY - 1))
+        def inventory = acceptInventory(AgedBrie.NAME, 1, MAX_QUALITY - 1)
 
         when:
         inventory.updateQuality()
@@ -100,7 +100,7 @@ class GildedRoseSpec extends Specification {
     @Unroll
     def 'passes for #name gain #gain quality'() {
         given:
-        def inventory = new GildedRose(new Item(TicketInventory.NAME, sellIn, value))
+        def inventory = acceptInventory(TicketInventory.NAME, sellIn, value)
 
         when:
         inventory.updateQuality()
@@ -120,5 +120,9 @@ class GildedRoseSpec extends Specification {
         'major concert in 5 days'       | 5         | MAX_QUALITY - 1   || 1
         'tomorrow'                      | 1         | 20                || 3
         'today'                         | 0         | 20                || -20
+    }
+
+    private static GildedRose acceptInventory(String name, int sellIn, int quality) {
+        return new GildedRose(new Item(name, sellIn, quality))
     }
 }
