@@ -1,6 +1,7 @@
 package com.gildedrose
 
 import com.gildedrose.inventory.AgedBrie
+import com.gildedrose.inventory.ConjuredInventory
 import com.gildedrose.inventory.LegendaryInventory
 import com.gildedrose.inventory.TicketInventory
 import spock.lang.Specification
@@ -40,27 +41,30 @@ class GildedRoseSpec extends Specification {
         }
     }
 
-    def 'quality decreases over time'() {
+    @Unroll
+    def 'quality of #name decreases over time'() {
         given:
-        def inventory = acceptInventory('item', 1, 10)
+        def item = new Item(name, 1, 10)
+        def inventory = new GildedRose(item)
 
         when:
         inventory.updateQuality()
 
         then:
-        with(inventory.items.first()) {
-            quality == 9
-            sellIn == 0
-        }
+        item.quality == old(item.quality) - degradeRatio
+        item.sellIn == 0
 
         when:
         inventory.updateQuality()
 
         then:
-        with(inventory.items.first()) {
-            quality == 7
-            sellIn == -1
-        }
+        item.quality == old(item.quality) - degradeRatio * 2
+        item.sellIn == -1
+
+        where:
+        name                    | degradeRatio
+        'item'                  | 1
+        ConjuredInventory.NAME  | 2
     }
 
     def 'legendary goods preserve quality & sell date'() {

@@ -1,9 +1,6 @@
 package com.gildedrose;
 
-import com.gildedrose.inventory.AgedBrie;
-import com.gildedrose.inventory.InventoryItem;
-import com.gildedrose.inventory.LegendaryInventory;
-import com.gildedrose.inventory.TicketInventory;
+import com.gildedrose.inventory.*;
 
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -38,6 +35,9 @@ class GildedRose {
         }
         if (item.name.equals(LegendaryInventory.NAME)) {
             return new LegendaryInventory(item);
+        }
+        if (item.name.equals(ConjuredInventory.NAME)) {
+            return new ConjuredInventory(item);
         }
 
         return new InventoryItem(item);
