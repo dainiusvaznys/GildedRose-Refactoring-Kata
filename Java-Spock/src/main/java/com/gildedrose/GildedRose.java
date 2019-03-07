@@ -21,7 +21,7 @@ class GildedRose {
             throw new IllegalArgumentException(spoiled);
         }
 
-        String expired = filterInventory(i -> i.sellIn <= 0, "is past expiration", items);
+        String expired = filterInventory(i -> i.sellIn < 0, "is past expiration", items);
         if (!expired.isEmpty()) {
             throw new IllegalArgumentException(expired);
         }
