@@ -3,6 +3,7 @@ package com.gildedrose
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.gildedrose.GildedRose.AGED_BRIE
 import static com.gildedrose.GildedRose.LEGENDARY
 
 class GildedRoseSpec extends Specification {
@@ -71,6 +72,29 @@ class GildedRoseSpec extends Specification {
         with(inventory.items.first()) {
             quality == 1
             sellIn == 1
+        }
+    }
+
+    def 'brie gets better with aging'() {
+        given:
+        def inventory = new GildedRose(new Item(AGED_BRIE, 1, 49))
+
+        when:
+        inventory.updateQuality()
+
+        then:
+        with(inventory.items.first()) {
+            quality == 50
+            sellIn == 0
+        }
+
+        when:
+        inventory.updateQuality()
+
+        then:
+        with(inventory.items.first()) {
+            quality == 50
+            sellIn == -1
         }
     }
 }
