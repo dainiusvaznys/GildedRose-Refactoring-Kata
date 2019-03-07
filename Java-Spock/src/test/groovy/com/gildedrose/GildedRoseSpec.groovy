@@ -3,6 +3,8 @@ package com.gildedrose
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static com.gildedrose.GildedRose.LEGENDARY
+
 class GildedRoseSpec extends Specification {
 
     @Unroll
@@ -32,6 +34,20 @@ class GildedRoseSpec extends Specification {
         with(inventory.items.first()) {
             quality == 0
             sellIn == -1
+        }
+    }
+
+    def 'legendary goods preserve quality & sell date'() {
+        given:
+        def inventory = new GildedRose(new Item(LEGENDARY, 1, 1))
+
+        when:
+        2.times { inventory.updateQuality() }
+
+        then:
+        with(inventory.items.first()) {
+            quality == 1
+            sellIn == 1
         }
     }
 }
