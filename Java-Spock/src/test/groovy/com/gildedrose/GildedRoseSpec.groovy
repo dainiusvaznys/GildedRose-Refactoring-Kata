@@ -3,10 +3,6 @@ package com.gildedrose
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.gildedrose.GildedRose.AGED_BRIE
-import static com.gildedrose.GildedRose.BACKSTAGE_PASSES
-import static com.gildedrose.GildedRose.LEGENDARY
-
 class GildedRoseSpec extends Specification {
 
     @Unroll
@@ -63,21 +59,21 @@ class GildedRoseSpec extends Specification {
 
     def 'legendary goods preserve quality & sell date'() {
         given:
-        def inventory = new GildedRose(new Item(LEGENDARY, 1, 1))
+        def inventory = new GildedRose(new Item(LegendaryInventory.NAME, 1, 80))
 
         when:
         2.times { inventory.updateQuality() }
 
         then:
         with(inventory.items.first()) {
-            quality == 1
+            quality == 80
             sellIn == 1
         }
     }
 
     def 'brie gets better with aging'() {
         given:
-        def inventory = new GildedRose(new Item(AGED_BRIE, 1, 49))
+        def inventory = new GildedRose(new Item(AgedBrie.NAME, 1, 49))
 
         when:
         inventory.updateQuality()
@@ -101,7 +97,7 @@ class GildedRoseSpec extends Specification {
     @Unroll
     def 'passes for #name gain #gain quality'() {
         given:
-        def inventory = new GildedRose(new Item(BACKSTAGE_PASSES, sellIn, value))
+        def inventory = new GildedRose(new Item(TicketInventory.NAME, sellIn, value))
 
         when:
         inventory.updateQuality()
