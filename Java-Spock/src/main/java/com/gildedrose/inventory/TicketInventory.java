@@ -1,16 +1,16 @@
-package com.gildedrose;
+package com.gildedrose.inventory;
 
-import static java.lang.Math.min;
+import com.gildedrose.Item;
 
-class TicketInventory extends InventoryItem {
-    static final String NAME = "Backstage passes to a TAFKAL80ETC concert";
+public class TicketInventory extends InventoryItem {
+    public static final String NAME = "Backstage passes to a TAFKAL80ETC concert";
 
-    TicketInventory(Item item) {
+    public TicketInventory(Item item) {
         super(item);
     }
 
     @Override
-    InventoryItem rollDay() {
+    public InventoryItem rollDay() {
         item.sellIn = item.sellIn - 1;
 
         if (item.sellIn < 0) {
@@ -28,7 +28,7 @@ class TicketInventory extends InventoryItem {
     }
 
     private InventoryItem increaseWorth(int by) {
-        item.quality = min(item.quality + by, MAX_QUALITY);
+        item.quality = Math.min(item.quality + by, MAX_QUALITY);
         return this;
     }
 }

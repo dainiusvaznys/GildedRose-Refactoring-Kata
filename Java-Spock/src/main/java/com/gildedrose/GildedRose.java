@@ -1,5 +1,10 @@
 package com.gildedrose;
 
+import com.gildedrose.inventory.AgedBrie;
+import com.gildedrose.inventory.InventoryItem;
+import com.gildedrose.inventory.LegendaryInventory;
+import com.gildedrose.inventory.TicketInventory;
+
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 

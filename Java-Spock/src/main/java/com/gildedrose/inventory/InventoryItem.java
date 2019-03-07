@@ -1,17 +1,19 @@
-package com.gildedrose;
+package com.gildedrose.inventory;
+
+import com.gildedrose.Item;
 
 import static java.lang.Math.max;
 
-class InventoryItem {
-    static final int MAX_QUALITY = 50;
+public class InventoryItem {
+    public static final int MAX_QUALITY = 50;
 
     protected Item item;
 
-    InventoryItem(Item item) {
+    public InventoryItem(Item item) {
         this.item = item;
     }
 
-    InventoryItem rollDay() {
+    public InventoryItem rollDay() {
         item.sellIn = item.sellIn - 1;
 
         boolean expired = item.sellIn < 0;

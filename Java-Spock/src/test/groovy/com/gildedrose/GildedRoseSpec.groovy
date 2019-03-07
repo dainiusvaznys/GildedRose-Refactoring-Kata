@@ -1,10 +1,13 @@
 package com.gildedrose
 
+import com.gildedrose.inventory.AgedBrie
+import com.gildedrose.inventory.LegendaryInventory
+import com.gildedrose.inventory.TicketInventory
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static com.gildedrose.InventoryItem.MAX_QUALITY
-import static com.gildedrose.LegendaryInventory.LEGENDARY_QUALITY
+import static com.gildedrose.inventory.InventoryItem.MAX_QUALITY
+import static com.gildedrose.inventory.LegendaryInventory.LEGENDARY_QUALITY
 
 class GildedRoseSpec extends Specification {
 
