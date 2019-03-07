@@ -29,21 +29,6 @@ class GildedRose {
         this.items = items;
     }
 
-    private static String filterInventory(Predicate<Item> constraint, String description, Item... items) {
-        return Stream.of(items)
-                .filter(constraint)
-                .map(i -> i.name + " " + description)
-                .collect(joining(", "));
-    }
-
-    static Item[] rollDay(Item... items) {
-        return new GildedRose(items).updateQuality();
-    }
-
-    static Item[] rollDay(Collection<Item> items) {
-        return rollDay(items.toArray(new Item[0]));
-    }
-
     Item[] updateQuality() {
         for (int i = 0; i < items.length; i++) {
             if (!items[i].name.equals(AGED_BRIE)
@@ -97,5 +82,12 @@ class GildedRose {
         }
 
         return items;
+    }
+
+    private static String filterInventory(Predicate<Item> constraint, String description, Item... items) {
+        return Stream.of(items)
+                .filter(constraint)
+                .map(i -> i.name + " " + description)
+                .collect(joining(", "));
     }
 }

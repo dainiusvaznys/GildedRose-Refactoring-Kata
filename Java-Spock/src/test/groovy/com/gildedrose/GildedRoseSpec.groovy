@@ -99,7 +99,7 @@ class GildedRoseSpec extends Specification {
     }
 
     @Unroll
-    def 'passes for #name valued at #value gain #gain quality'() {
+    def 'passes for #name gain #gain quality'() {
         given:
         def inventory = new GildedRose(new Item(BACKSTAGE_PASSES, sellIn, value))
 
@@ -112,11 +112,14 @@ class GildedRoseSpec extends Specification {
         }
 
         where:
-        name                    | sellIn    | value     || gain
-        'upcoming concert'      | 11        | 20        || 1
-        'concert in 10 days'    | 10        | 20        || 2
-        'concert in 5 days'     | 5         | 20        || 3
-        'tomorrow'              | 1         | 20        || 3
-        'today'                 | 0         | 20        || -20
+        name                            | sellIn    | value     || gain
+        'upcoming regular concert'      | 11        | 20        || 1
+        'upcoming major concert'        | 11        | 49        || 1
+        'regular concert in 10 days'    | 10        | 20        || 2
+        'major concert in 10 days'      | 10        | 49        || 1
+        'regular concert in 5 days'     | 5         | 20        || 3
+        'major concert in 5 days'       | 5         | 49        || 1
+        'tomorrow'                      | 1         | 20        || 3
+        'today'                         | 0         | 20        || -20
     }
 }
