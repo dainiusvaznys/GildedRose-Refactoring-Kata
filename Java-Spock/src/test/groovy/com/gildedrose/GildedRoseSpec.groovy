@@ -1,35 +1,37 @@
 package com.gildedrose
 
 import spock.lang.Specification
-
-import static com.gildedrose.GildedRose.AGED_BRIE
-import static com.gildedrose.GildedRose.BACKSTAGE_PASSES
-import static com.gildedrose.GildedRose.LEGENDARY
+import spock.lang.Unroll
 
 class GildedRoseSpec extends Specification {
 
-    def "don't accept spoiled goods"() {
-        given:
-        def spoiled = new Item('item1', 0, -1)
-
+    @Unroll
+    def "don't accept #name goods"() {
         when:
-        new GildedRose(spoiled).updateQuality()
+        new GildedRose(new Item(name, sellIn, quality))
 
         then:
-        thrown(IllegalArgumentException)
+        def error = thrown(IllegalArgumentException)
+        error.message.contains(name)
+
+        where:
+        name                | sellIn    | quality
+        'spoiled'           | 1         | -1
+        'expired'           | 0         | 0
+        'past expiration'   | -1        | 0
     }
 
     def 'quality is non-negative past expiration'() {
-
         given:
-        def items = ['item1', AGED_BRIE, BACKSTAGE_PASSES, LEGENDARY]
-            .collect { new Item(it, 0, 0) }
+        def inventory = new GildedRose(new Item('item', 1, 0))
 
         when:
-        def updated = new GildedRose(items).updateQuality()
+        2.times { inventory.updateQuality() }
 
         then:
-        updated.each { it.quality == 0 }
-        updated.each { it.sellIn == -1 }
+        with(inventory.items.first()) {
+            quality == 0
+            sellIn == -1
+        }
     }
 }

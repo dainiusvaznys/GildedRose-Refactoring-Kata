@@ -1,6 +1,7 @@
 package com.gildedrose;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
@@ -12,23 +13,38 @@ class GildedRose {
 
     Item[] items;
 
-    public GildedRose(Collection<Item> items) {
-        this(items.toArray(new Item[0]));
-    }
+    GildedRose(Item... items) {
+        // the validation belongs to Item construction, too bad we can't touch it
 
-    public GildedRose(Item... items) {
-        String spoiled = Stream.of(items)
-                .filter(i -> i.quality < 0)
-                .map(i -> i.name + " is spoiled")
-                .collect(joining(", "));
+        String spoiled = filterInventory(i -> i.quality < 0, "is spoiled", items);
         if (!spoiled.isEmpty()) {
             throw new IllegalArgumentException(spoiled);
+        }
+
+        String expired = filterInventory(i -> i.sellIn <= 0, "is past expiration", items);
+        if (!expired.isEmpty()) {
+            throw new IllegalArgumentException(expired);
         }
 
         this.items = items;
     }
 
-    public Item[] updateQuality() {
+    private static String filterInventory(Predicate<Item> constraint, String description, Item... items) {
+        return Stream.of(items)
+                .filter(constraint)
+                .map(i -> i.name + " " + description)
+                .collect(joining(", "));
+    }
+
+    static Item[] rollDay(Item... items) {
+        return new GildedRose(items).updateQuality();
+    }
+
+    static Item[] rollDay(Collection<Item> items) {
+        return rollDay(items.toArray(new Item[0]));
+    }
+
+    Item[] updateQuality() {
         for (int i = 0; i < items.length; i++) {
             if (!items[i].name.equals(AGED_BRIE)
                     && !items[i].name.equals(BACKSTAGE_PASSES)) {
