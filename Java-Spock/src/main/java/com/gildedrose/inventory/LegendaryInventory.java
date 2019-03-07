@@ -15,7 +15,6 @@ public class LegendaryInventory extends InventoryItem {
     }
 
     @Override
-    public InventoryItem rollDay() {
-        return this;
+    public void rollDay() {
     }
 }

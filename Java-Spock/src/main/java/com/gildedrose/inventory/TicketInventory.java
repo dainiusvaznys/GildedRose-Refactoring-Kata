@@ -10,21 +10,23 @@ public class TicketInventory extends InventoryItem {
     }
 
     @Override
-    public InventoryItem rollDay() {
+    public void rollDay() {
         item.sellIn = item.sellIn - 1;
 
         if (item.sellIn < 0) {
             item.quality = 0;
-            return this;
+            return;
         }
         if (item.sellIn < 5) {
-            return increaseWorth(3);
+            increaseWorth(3);
+            return;
         }
         if (item.sellIn < 10) {
-            return increaseWorth(2);
+            increaseWorth(2);
+            return;
         }
 
-        return increaseWorth(1);
+        increaseWorth(1);
     }
 
     private InventoryItem increaseWorth(int by) {
