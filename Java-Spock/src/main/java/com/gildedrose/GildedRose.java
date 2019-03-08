@@ -45,6 +45,7 @@ class GildedRose {
 
     Item[] updateQuality() {
         Stream.of(items)
+                .parallel()
                 .map(this::classifyInventory)
                 .forEach(InventoryItem::rollDay);
 

@@ -29,7 +29,7 @@ class GildedRoseSpec extends Specification {
 
     def 'quality is non-negative past expiration'() {
         given:
-        def items = ['name', AgedBrie.NAME, ConjuredInventory.NAME, TicketInventory.NAME]
+        def items = ['item', AgedBrie.NAME, ConjuredInventory.NAME, TicketInventory.NAME]
                 .collect { new Item(it, 0, 0) } as Item[]
         def inventory = new GildedRose(items)
 
