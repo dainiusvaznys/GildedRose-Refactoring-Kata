@@ -2,8 +2,6 @@ package com.gildedrose.inventory;
 
 import com.gildedrose.Item;
 
-import static java.lang.Math.min;
-
 public class AgedBrie extends InventoryItem {
     public static final String NAME = "Aged Brie";
 
@@ -14,7 +12,6 @@ public class AgedBrie extends InventoryItem {
     @Override
     public void rollDay() {
         item.sellIn = item.sellIn - 1;
-        item.quality = min(item.quality + 1, MAX_QUALITY);
-
+        increaseWorth(1);
     }
 }

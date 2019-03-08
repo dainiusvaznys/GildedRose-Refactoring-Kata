@@ -12,6 +12,6 @@ public class ConjuredInventory extends InventoryItem {
     @Override
     public void rollDay() {
         item.sellIn = item.sellIn - 1;
-        degrade(2);
+        decreaseWorth(2);
     }
 }
