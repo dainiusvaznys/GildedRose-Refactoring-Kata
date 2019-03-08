@@ -2,13 +2,25 @@ package com.gildedrose;
 
 import com.gildedrose.inventory.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 
 class GildedRose {
+    private static Map<String, Function<Item, InventoryItem>> inventoryTypes = new HashMap<>();
+
     Item[] items;
+
+    static {
+        inventoryTypes.put(AgedBrie.NAME, AgedBrie::new);
+        inventoryTypes.put(TicketInventory.NAME, TicketInventory::new);
+        inventoryTypes.put(LegendaryInventory.NAME, LegendaryInventory::new);
+        inventoryTypes.put(ConjuredInventory.NAME, ConjuredInventory::new);
+    }
 
     GildedRose(Item... items) {
         // the validation belongs to Item construction, too bad we can't touch it
@@ -26,30 +38,15 @@ class GildedRose {
         this.items = items;
     }
 
-    private InventoryItem classifyInventory(Item item) {
-        if (item.name.equals(AgedBrie.NAME)) {
-            return new AgedBrie(item);
-        }
-        if (item.name.equals(TicketInventory.NAME)) {
-            return new TicketInventory(item);
-        }
-        if (item.name.equals(LegendaryInventory.NAME)) {
-            return new LegendaryInventory(item);
-        }
-        if (item.name.equals(ConjuredInventory.NAME)) {
-            return new ConjuredInventory(item);
-        }
-
-        return new InventoryItem(item);
-    }
-
-    Item[] updateQuality() {
+    void updateQuality() {
         Stream.of(items)
                 .parallel()
-                .map(this::classifyInventory)
+                .map(GildedRose::classifyInventory)
                 .forEach(InventoryItem::rollDay);
+    }
 
-        return items;
+    private static InventoryItem classifyInventory(Item item) {
+        return inventoryTypes.getOrDefault(item.name, InventoryItem::new).apply(item);
     }
 
     private static String filterInventory(Predicate<Item> constraint, String description, Item... items) {
