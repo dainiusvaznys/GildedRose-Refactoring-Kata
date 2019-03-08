@@ -29,16 +29,16 @@ class GildedRoseSpec extends Specification {
 
     def 'quality is non-negative past expiration'() {
         given:
-        def inventory = acceptInventory('item', 0, 0)
+        def items = ['name', AgedBrie.NAME, ConjuredInventory.NAME, TicketInventory.NAME]
+                .collect { new Item(it, 0, 0) } as Item[]
+        def inventory = new GildedRose(items)
 
         when:
         2.times { inventory.updateQuality() }
 
         then:
-        with(inventory.items.first()) {
-            quality == 0
-            sellIn == -2
-        }
+        inventory.items.every { it.quality >= 0 }
+        inventory.items.every { it.sellIn == -2 }
     }
 
     @Unroll
