@@ -45,7 +45,7 @@ class TestApp {
         repository.add(generator.item(AgedBrie.NAME, generator.randomQuality(MAX_QUALITY)));
         repository.add(generator.item(ConjuredInventory.NAME, generator.randomQuality(MAX_QUALITY)));
         repository.add(generator.item(TicketInventory.NAME, generator.randomQuality(MAX_QUALITY)));
-        repository.add(generator.item(LegendaryInventory.NAME, generator.randomQuality(LEGENDARY_QUALITY)));
+        repository.add(generator.item(LegendaryInventory.NAME, LEGENDARY_QUALITY));
     }
 
     private static class TestDataGenerator {

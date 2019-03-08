@@ -22,7 +22,7 @@ class GildedRose {
         inventoryTypes.put(ConjuredInventory.NAME, ConjuredInventory::new);
     }
 
-    GildedRose(Item... items) {
+    public GildedRose(Item... items) {
         // the validation belongs to Item construction, too bad we can't touch it
 
         String spoiled = filterInventory(i -> i.quality < 0, "is spoiled", items);
@@ -38,11 +38,12 @@ class GildedRose {
         this.items = items;
     }
 
-    void updateQuality() {
+    Item[] updateQuality() {
         Stream.of(items)
                 .parallel()
                 .map(GildedRose::classifyInventory)
                 .forEach(InventoryItem::rollDay);
+        return items;
     }
 
     private static InventoryItem classifyInventory(Item item) {

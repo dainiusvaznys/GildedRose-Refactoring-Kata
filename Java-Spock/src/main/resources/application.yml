@@ -2,3 +2,5 @@ spring:
     redis:
         host: localhost
         port: 6379
+app:
+    roll-day-at: "0 0 22 * * *"  # 22:00 every day
