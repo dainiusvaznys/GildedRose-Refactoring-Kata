@@ -2,10 +2,10 @@ package com.gildedrose.inventory;
 
 import com.gildedrose.Item;
 
-public class TicketInventory extends InventoryItem {
+public class Tickets extends InventoryItem {
     public static final String NAME = "Backstage passes to a TAFKAL80ETC concert";
 
-    public TicketInventory(Item item) {
+    public Tickets(Item item) {
         super(item);
     }
 

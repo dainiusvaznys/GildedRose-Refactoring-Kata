@@ -17,7 +17,7 @@ class GildedRose {
 
     static {
         inventoryTypes.put(AgedBrie.NAME, AgedBrie::new);
-        inventoryTypes.put(TicketInventory.NAME, TicketInventory::new);
+        inventoryTypes.put(Tickets.NAME, Tickets::new);
         inventoryTypes.put(LegendaryInventory.NAME, LegendaryInventory::new);
         inventoryTypes.put(ConjuredInventory.NAME, ConjuredInventory::new);
     }

@@ -3,7 +3,7 @@ package com.gildedrose;
 import com.gildedrose.inventory.AgedBrie;
 import com.gildedrose.inventory.ConjuredInventory;
 import com.gildedrose.inventory.LegendaryInventory;
-import com.gildedrose.inventory.TicketInventory;
+import com.gildedrose.inventory.Tickets;
 import com.gildedrose.items.ItemRepository;
 import com.github.javafaker.Faker;
 import org.springframework.boot.SpringApplication;
@@ -44,7 +44,7 @@ class TestApp {
                 .forEach(repository::add);
         repository.add(generator.item(AgedBrie.NAME, generator.randomQuality(MAX_QUALITY)));
         repository.add(generator.item(ConjuredInventory.NAME, generator.randomQuality(MAX_QUALITY)));
-        repository.add(generator.item(TicketInventory.NAME, generator.randomQuality(MAX_QUALITY)));
+        repository.add(generator.item(Tickets.NAME, generator.randomQuality(MAX_QUALITY)));
         repository.add(generator.item(LegendaryInventory.NAME, LEGENDARY_QUALITY));
     }
 

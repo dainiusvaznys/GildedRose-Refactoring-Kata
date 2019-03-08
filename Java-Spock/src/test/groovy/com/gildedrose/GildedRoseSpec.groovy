@@ -3,7 +3,7 @@ package com.gildedrose
 import com.gildedrose.inventory.AgedBrie
 import com.gildedrose.inventory.ConjuredInventory
 import com.gildedrose.inventory.LegendaryInventory
-import com.gildedrose.inventory.TicketInventory
+import com.gildedrose.inventory.Tickets
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -29,7 +29,7 @@ class GildedRoseSpec extends Specification {
 
     def 'quality is non-negative past expiration'() {
         given:
-        def items = ['item', AgedBrie.NAME, ConjuredInventory.NAME, TicketInventory.NAME]
+        def items = ['item', AgedBrie.NAME, ConjuredInventory.NAME, Tickets.NAME]
                 .collect { new Item(it, 0, 0) } as Item[]
         def inventory = new GildedRose(items)
 
@@ -105,9 +105,9 @@ class GildedRoseSpec extends Specification {
     }
 
     @Unroll
-    def 'passes for #name gain #gain quality'() {
+    def 'tickets for #name gain #gain quality'() {
         given:
-        def inventory = acceptInventory(TicketInventory.NAME, sellIn, value)
+        def inventory = acceptInventory(Tickets.NAME, sellIn, value)
 
         when:
         inventory.updateQuality()
